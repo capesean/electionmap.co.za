@@ -18,12 +18,17 @@
 
     // winning parties - need ability to add others
     var parties = [
-         { name: "AFRICAN NATIONAL CONGRESS", fillColor: "#008442", fillOpacity: fillOpacity, strokeColor: "#000000", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
-         { name: "DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE", fillColor: "#004887", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
-         { name: "INDEPENDENT DEMOCRATS", fillColor: "#ed8429", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
-         { name: "CONGRESS  OF THE PEOPLE", fillColor: "#fed404", fillOpacity: fillOpacity, strokeColor: "#000000", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
-         { name: "UNITED DEMOCRATIC MOVEMENT", fillColor: "#0b6b3d", fillOpacity: fillOpacity, strokeColor: "#ff0000", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
-         { name: "INKATHA FREEDOM PARTY", fillColor: "#f1452d", fillOpacity: fillOpacity, strokeColor: "#ffe215", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight }
+        { name: "AFRICAN NATIONAL CONGRESS", fillColor: "#008442", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE", fillColor: "#004887", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "CONGRESS  OF THE PEOPLE", fillColor: "#fed404", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "INKATHA FREEDOM PARTY", fillColor: "#f1452d", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "INDEPENDENT DEMOCRATS", fillColor: "#ed8429", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "UNITED DEMOCRATIC MOVEMENT", fillColor: "#FFCC00", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "VRYHEIDSFRONT PLUS", fillColor: "#EC8713", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "AFRICAN CHRISTIAN DEMOCRATIC PARTY", fillColor: "#AD2B2B", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "UNITED CHRISTIAN DEMOCRATIC PARTY", fillColor: "#78A22C", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "PAN AFRICANIST CONGRESS OF AZANIA", fillColor: "#093824", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight },
+        { name: "MINORITY FRONT", fillColor: "#FF0000", fillOpacity: fillOpacity, strokeColor: "#ffffff", strokeOpacity: strokeOpacity, strokeWeight: strokeWeight }
     ];
 
     // lookup arrays: get numeric id for code4sa rest service
