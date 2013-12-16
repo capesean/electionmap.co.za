@@ -282,11 +282,8 @@
 
             }
 
-            // get the styles
-            var styles = $.extend({}, getStyle(data));
-
-            // set the styles to the clicked shape (polygon)
-            this.setOptions(styles);
+            // set the styles - not necessary if styling on load
+            //this.setOptions($.extend({}, getStyle(data)));
         }
 
         // show the results table
@@ -313,37 +310,62 @@
             if (mapper)
                 mapper.mapper("destroy");
 
-            // load all clicked shapes from localstorage
-            var loadedData = [];
-            if (typeof (window.Storage) !== "undefined") {
-                // get the list of ids for the selected shape type
-                var ids = JSON.parse(localStorage.getItem(shapeType));
-                for (var i in ids) {
-                    var id = ids[i];
-                    // get the data for this id
-                    var data = getData(id);
-                    // add to array of data (ids + styles) for mapper.js to load
-                    if (data.votes.length > 0) {
-                        // get the styles
-                        var item = $.extend({}, getStyle(data));
-                        // add the id
-                        item.id = (shapeType === "municipalities" ? municipalities[id] : id);
-                        // push to array
-                        loadedData.push(item);
+            var allowAllWards = false;
+            if (shapeType == "wards" && wardProvince == "All provinces") allowAllWards = true;
+
+            var geography = getDataFromUrl("geography.js");
+
+            var data = [];
+
+            var provs = geography.provinces;
+            for (var p = 0; p < provs.length; p++) {
+                if (shapeType == "provinces") {
+                    var pdata = getDataWithDataType(provs[p].name, "provinces");
+                    var item = $.extend({}, getStyle(pdata));
+                    item.id = provs[p].name;
+                    data.push(item);
+                } else if (shapeType == "municipalities") {
+                    for (var d = 0; d < provs[p].districts.length; d++) {
+                        for (var m = 0; m < provs[p].districts[d].municipalities.length; m++) {
+                            var municid = $.inArray(provs[p].districts[d].municipalities[m].id, municipalities);
+                            var mdata = getDataWithDataType(municid, "municipalities");
+                            item = {};
+                            if (municid >= 0 && mdata && mdata.votes && mdata.votes.length > 0) {
+                                item = $.extend({}, getStyle(mdata));
+                            }
+                            item.id = provs[p].districts[d].municipalities[m].id;
+                            data.push(item);
+
+                        }
+                    }
+                } else if (shapeType == "wards") {
+                    if(provs[p].name == wardProvince) {
+                        for (d = 0; d < provs[p].districts.length; d++) {
+                            for (m = 0; m < provs[p].districts[d].municipalities.length; m++) {
+                                for (var w = 0; w < provs[p].districts[d].municipalities[m].wards.length; w++) {
+                                    var wdata = getDataWithDataType(provs[p].districts[d].municipalities[m].wards[w].name, "wards");
+                                    item = {};
+                                    if (wdata && wdata.votes && wdata.votes.length > 0) {
+                                        item = $.extend({}, getStyle(wdata));
+                                    }
+                                    item.id = provs[p].districts[d].municipalities[m].wards[w].name;
+                                    data.push(item);
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            var allowAllWards = false;
-            if (shapeType == "wards" && wardProvince == "All provinces") allowAllWards = true;
+            //var item = $.extend({}, getStyle(data));
 
             // create new mapper
             try {
                 mapper = $("#map").mapper({
                     allowAllWards: allowAllWards,
                     dataType: shapeType,
-                    drawAll: true,
-                    data: loadedData,
+                    //drawAll: true,
+                    data: data,
                     click: shapeClicked,
                     province: (shapeType == "wards" ? (wardProvince == "All provinces" ? "" : wardProvince) : "")
                 });
@@ -367,6 +389,47 @@
         else
             throw new Error("Invalid dataType in getDataWithDataType: " + dataType);
 
+        var data = getDataFromUrl(url);
+
+        // shift the votes from the results to the data object (for uniformity)
+        if (!data.votes && data.results[0] && data.results[0].votes) {
+            data.votes = data.results[0].votes;
+            delete data.results[0].votes;
+        }
+
+        // get votes object
+        if (!data.votes || data.votes.length == 0)
+            data.votes = []; //throw new Error("No votes were found"); // boundary changes?
+
+        // remove invalid votes (nulls) // TODO: investigate where these are from
+        var voteIndex = data.votes.length;
+        while (voteIndex--) {
+            if (data.votes[voteIndex].party == null || data.votes[voteIndex].votes == null) {
+                data.votes.splice(voteIndex, 1);
+            }
+        }
+
+        // get the total number of votes
+        var totalVotes = 0;
+        for (var idx in data.votes) {
+            var vote = data.votes[idx];
+            totalVotes += vote.votes;
+        }
+
+        // store the total number of votes
+        if (totalVotes) data.totalVotes = totalVotes;
+
+        // sort by vote count desc
+        data.votes.sort(function (a, b) {
+            var aVotes = a.votes;
+            var bVotes = b.votes;
+            return ((bVotes < aVotes) ? -1 : ((bVotes > aVotes) ? 1 : 0));
+        });
+
+        return data;
+    }
+
+    function getDataFromUrl(url) {
         var data = null;
 
         // if browser supports local storage, try get results
@@ -385,57 +448,18 @@
                 'dataType': "json",
                 'success': function (d) {
                     data = d;
-
-                    // shift the votes from the results to the data object (for uniformity)
-                    if (!data.votes && data.results[0] && data.results[0].votes) {
-                        data.votes = data.results[0].votes;
-                        delete data.results[0].votes;
-                    }
-
-                    // get votes object
-                    if (!data.votes || data.votes.length == 0)
-                        data.votes = []; //throw new Error("No votes were found"); // boundary changes?
-
-                    // remove invalid votes (nulls) // TODO: investigate where these are from
-                    var voteIndex = data.votes.length;
-                    while (voteIndex--) {
-                        if (data.votes[voteIndex].party == null || data.votes[voteIndex].votes == null) {
-                            data.votes.splice(voteIndex, 1);
-                        }
-                    }
-
-                    // get the total number of votes
-                    var totalVotes = 0;
-                    for (var idx in data.votes) {
-                        var vote = data.votes[idx];
-                        totalVotes += vote.votes;
-                    }
-
-                    // store the total number of votes
-                    if (totalVotes) data.totalVotes = totalVotes;
-
-                    // sort by vote count desc
-                    data.votes.sort(function (a, b) {
-                        var aVotes = a.votes;
-                        var bVotes = b.votes;
-                        return ((bVotes < aVotes) ? -1 : ((bVotes > aVotes) ? 1 : 0));
-                    });
-
-                    // if browser supports local storage, store results
-                    if (typeof (window.Storage) !== "undefined") {
-                        // store the json data
-                        localStorage.setItem(url, JSON.stringify(data));
-                        // add id to the list of ids
-                        var ids = JSON.parse(localStorage.getItem(dataType)) || [];
-                        if (ids.indexOf(id) < 0) ids.push(id);
-                        localStorage.setItem(dataType, JSON.stringify(ids));
-                    }
                 }
                 , 'error': function () {
                     data = {};
                     data.votes = []; //throw new Error("Error retrieving data from " + url);
                 }
             });
+        }
+
+        // if browser supports local storage, store results
+        if (typeof (window.Storage) !== "undefined") {
+            // store the json data
+            localStorage.setItem(url, JSON.stringify(data));
         }
 
         return data;
