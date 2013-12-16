@@ -134,16 +134,22 @@
                 winningMargin = winningPartyPercent - secondPartyPercent;
 
             // override the party style with margin-based opacity
-            if (winningMargin >= 20) {
-                styles.fillOpacity = 0.88;
+            if (winningMargin >= 25) {
+                styles.fillOpacity = 0.95;
+            } else if (winningMargin >= 20) {
+                styles.fillOpacity = 0.85;
             } else if (winningMargin >= 15) {
-                styles.fillOpacity = 0.73;
+                styles.fillOpacity = 0.75;
             } else if (winningMargin >= 10) {
-                styles.fillOpacity = 0.58;
+                styles.fillOpacity = 0.65;
+            } else if (winningMargin >= 7.5) {
+                styles.fillOpacity = 0.55;
             } else if (winningMargin >= 5) {
-                styles.fillOpacity = 0.43;
+                styles.fillOpacity = 0.45;
+            } else if (winningMargin >= 2.5) {
+                styles.fillOpacity = 0.35;
             } else {
-                styles.fillOpacity = 0.28;
+                styles.fillOpacity = 0.25;
             }
 
         } else if (indicatorType == "Party base") {
@@ -158,16 +164,22 @@
 
             // override the party style with margin-based opacity
 
-            if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 1.5)) { // province (9) = 16.67
-                styles.fillOpacity = 0.88;
+            if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 1.75)) { // province (9) = 16.67
+                styles.fillOpacity = 0.95;
+            } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 1.5)) {
+                styles.fillOpacity = 0.85;
+            } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 1.25)) {
+                styles.fillOpacity = 0.75;
             } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 1.0)) {
-                styles.fillOpacity = 0.73;
+                styles.fillOpacity = 0.65;
             } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 0.75)) {
-                styles.fillOpacity = 0.58;
-            } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 0.5)) {
-                styles.fillOpacity = 0.43;
+                styles.fillOpacity = 0.55;
+            } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 0.50)) {
+                styles.fillOpacity = 0.45;
+            } else if (percentOfTotalVotes >= (100 / numShapes[shapeType] * 0.25)) {
+                styles.fillOpacity = 0.35;
             } else {
-                styles.fillOpacity = 0.28;
+                styles.fillOpacity = 0.25;
             }
 
         } else if (indicatorType == "Party strength") {
@@ -181,16 +193,22 @@
             var percentWon = (partyVotes / data.totalVotes * 100).toFixed(2);
 
             // override the party style with margin-based opacity
-            if (percentWon >= 20) {
-                styles.fillOpacity = 0.88;
+            if (percentWon >= 30) {
+                styles.fillOpacity = 0.95;
+            } else if (percentWon >= 20) {
+                styles.fillOpacity = 0.85;
+            } else if (percentWon >= 15) {
+                styles.fillOpacity = 0.75;
             } else if (percentWon >= 10) {
-                styles.fillOpacity = 0.73;
+                styles.fillOpacity = 0.65;
             } else if (percentWon >= 5) {
-                styles.fillOpacity = 0.58;
+                styles.fillOpacity = 0.55;
             } else if (percentWon >= 2.5) {
-                styles.fillOpacity = 0.43;
+                styles.fillOpacity = 0.45;
+            } else if (percentWon >= 1) {
+                styles.fillOpacity = 0.35;
             } else {
-                styles.fillOpacity = 0.28;
+                styles.fillOpacity = 0.25;
             }
 
         }
@@ -328,7 +346,8 @@
                     for (var d = 0; d < provs[p].districts.length; d++) {
                         for (var m = 0; m < provs[p].districts[d].municipalities.length; m++) {
                             var municid = $.inArray(provs[p].districts[d].municipalities[m].id, municipalities);
-                            var mdata = getDataWithDataType(municid, "municipalities");
+                            var mdata = {};
+                            if (municid >= 0) mdata = getDataWithDataType(municid, "municipalities"); // exclude new munics
                             item = {};
                             if (municid >= 0 && mdata && mdata.votes && mdata.votes.length > 0) {
                                 item = $.extend({}, getStyle(mdata));
@@ -339,7 +358,7 @@
                         }
                     }
                 } else if (shapeType == "wards") {
-                    if(provs[p].name == wardProvince) {
+                    if (provs[p].name == wardProvince) {
                         for (d = 0; d < provs[p].districts.length; d++) {
                             for (m = 0; m < provs[p].districts[d].municipalities.length; m++) {
                                 for (var w = 0; w < provs[p].districts[d].municipalities[m].wards.length; w++) {
