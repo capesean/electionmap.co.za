@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Election Map</title>
+    <!-- jquery -->
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.3.min.js"></script>
+    <!-- bootstrap -->
+    <link href="Content/bootstrap.min.css" rel="stylesheet">
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="Scripts/bootstrap.min.js"></script>
+    <!-- google maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <!-- mapper -->
+    <script src="http://www.capesean.co.za/mapper/mapper.js"></script>
+    <!-- site files -->
+    <script src="Scripts/site.js"></script>
+    <link href="Content/site.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <div id="options">
+            <div class="btn-group">
+                <button class="btn btn-success" data-toggle="dropdown" id="shapeType">Provinces</button>
+                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu" id="shapetypeDropdown">
+                    <li><a href="#" tabindex="-1">Provinces</a></li>
+                    <li><a href="#" tabindex="-1">Municipalities</a></li>
+                    <li><a href="#" tabindex="-1">Wards</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success" data-toggle="dropdown" id="indicatorType">Winning party</button>
+                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu" id="indicatorTypeDropdown">
+                    <li><a href="#" tabindex="-1">Winning party</a></li>
+                    <li><a href="#" tabindex="-1">Winning margin</a></li>
+                    <li><a href="#" tabindex="-1">Party base</a></li>
+                    <li><a href="#" tabindex="-1">Party strength</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" id="resultCountBtns">
+                <button class="btn btn-success" data-toggle="dropdown" id="resultCount">5 results</button>
+                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu" id="resultCountDropdown">
+                    <li><a href="#" tabindex="-1">Hide results</a></li>
+                    <li><a href="#" tabindex="-1">1 result</a></li>
+                    <li><a href="#" tabindex="-1">2 results</a></li>
+                    <li><a href="#" tabindex="-1">3 results</a></li>
+                    <li><a href="#" tabindex="-1">4 results</a></li>
+                    <li><a href="#" tabindex="-1">5 results</a></li>
+                    <li><a href="#" tabindex="-1">10 results</a></li>
+                    <li><a href="#" tabindex="-1">All results</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" id="selectedPartyBtns">
+                <button class="btn btn-success" data-toggle="dropdown" id="selectedParty">AFRICAN NATIONAL CONGRESS</button>
+                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu" id="selectedPartyDropdown">
+                    <li><a href="#" tabindex="-1">AFRICAN NATIONAL CONGRESS</a></li>
+                    <li><a href="#" tabindex="-1">DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE</a></li>
+                    <li><a href="#" tabindex="-1">INDEPENDENT DEMOCRATS</a></li>
+                    <li><a href="#" tabindex="-1">CONGRESS  OF THE PEOPLE</a></li>
+                    <li><a href="#" tabindex="-1">UNITED DEMOCRATIC MOVEMENT</a></li>
+                    <li><a href="#" tabindex="-1">INKATHA FREEDOM PARTY</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="results">
+            <div class="panel panel-default">
+                <div id="heading" class="panel-heading"><span id="headingText"></span><button type='button' class='close'>&times;</button></div>
+                <table class="table table-striped table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Party</th>
+                            <th>Votes</th>
+                            <th>Percent</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <!-- first visit modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="myModalLabel">Election Map</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Welcome to Election Map!</h4>
+                        <p>Choose from <code>Provinces</code>, <code>Municipalities</code> or <code>Wards</code> from the drop-down option.</p>
+                        <p>Click on an area on the map to view the relevant election data.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <div id="spinner"></div>
+</body>
+</html>

@@ -1,3 +1,7 @@
 *.*
 !.gitignore
 !.gitattributes
+!default.html
+!Scripts/site.js
+!Content/site.css
+!images/spinner.gif

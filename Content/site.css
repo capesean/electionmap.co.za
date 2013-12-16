@@ -1,0 +1,80 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#options {
+    z-index: 100;
+    position: absolute;
+    margin: 20px 0 0 100px;
+}
+
+#results {
+    z-index: 100;
+    position: absolute;
+    margin: 40px 20px 0 0;
+    right: 0;
+    display: none;
+}
+
+    #results .panel {
+        margin-bottom: 0;
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #results td {
+        white-space: nowrap;
+    }
+
+    #results td:first-child, #results th:first-child {
+        padding-left:17px;
+    }
+
+    #results td:last-child, #results th:last-child {
+        padding-right:17px;
+    }
+
+
+#spinner {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: #ffffff 
+                url('../images/spinner.gif') 
+                50% 50% 
+                no-repeat;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../images/spinner.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+body.loading {
+    overflow: hidden;   
+}
+
+body.loading #spinner {
+    display: block;
+}
