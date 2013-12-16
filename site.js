@@ -65,6 +65,7 @@
         $("#shapeType").text($(this).text());
         shapeType = $(this).text().toLowerCase();
         if (shapeType == "wards") $("#wardProvinceBtns").show();
+        else $("#wardProvinceBtns").hide();
         // don't show map if wards & no province selection yet
         if (shapeType != "wards" || wardProvince != "")
             startMap();
