@@ -22,17 +22,36 @@
 
         <div id="options">
             <div class="btn-group">
-                <button class="btn btn-success" data-toggle="dropdown" id="shapeType">Provinces</button>
-                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn btn-info" data-toggle="dropdown" id="btnInfo"><span class="glyphicon glyphicon-question-sign"></span></button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" data-toggle="dropdown" id="shapeType">Provinces</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu" id="shapetypeDropdown">
                     <li><a href="#" tabindex="-1">Provinces</a></li>
                     <li><a href="#" tabindex="-1">Municipalities</a></li>
                     <li><a href="#" tabindex="-1">Wards</a></li>
                 </ul>
             </div>
+            <div class="btn-group" id="wardProvinceBtns">
+                <button class="btn btn-primary" data-toggle="dropdown" id="wardProvince">Select a province</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu" id="wardProvinceDropdown">
+                    <li><a href="#" tabindex="-1">Eastern Cape</a></li>
+                    <li><a href="#" tabindex="-1">Free State</a></li>
+                    <li><a href="#" tabindex="-1">Gauteng</a></li>
+                    <li><a href="#" tabindex="-1">KwaZulu-Natal</a></li>
+                    <li><a href="#" tabindex="-1">Limpopo</a></li>
+                    <li><a href="#" tabindex="-1">Mpumalanga</a></li>
+                    <li><a href="#" tabindex="-1">North West</a></li>
+                    <li><a href="#" tabindex="-1">Northern Cape</a></li>
+                    <li><a href="#" tabindex="-1">Western Cape</a></li>
+                    <li><a href="#" tabindex="-1">All provinces</a></li>
+                </ul>
+            </div>
             <div class="btn-group">
-                <button class="btn btn-success" data-toggle="dropdown" id="indicatorType">Winning party</button>
-                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn btn-primary" data-toggle="dropdown" id="indicatorType">Winning party</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu" id="indicatorTypeDropdown">
                     <li><a href="#" tabindex="-1">Winning party</a></li>
                     <li><a href="#" tabindex="-1">Winning margin</a></li>
@@ -41,8 +60,8 @@
                 </ul>
             </div>
             <div class="btn-group" id="resultCountBtns">
-                <button class="btn btn-success" data-toggle="dropdown" id="resultCount">5 results</button>
-                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn btn-primary" data-toggle="dropdown" id="resultCount">5 results</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu" id="resultCountDropdown">
                     <li><a href="#" tabindex="-1">Hide results</a></li>
                     <li><a href="#" tabindex="-1">1 result</a></li>
@@ -55,8 +74,8 @@
                 </ul>
             </div>
             <div class="btn-group" id="selectedPartyBtns">
-                <button class="btn btn-success" data-toggle="dropdown" id="selectedParty">AFRICAN NATIONAL CONGRESS</button>
-                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn btn-primary" data-toggle="dropdown" id="selectedParty">AFRICAN NATIONAL CONGRESS</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu" id="selectedPartyDropdown">
                     <li><a href="#" tabindex="-1">AFRICAN NATIONAL CONGRESS</a></li>
                     <li><a href="#" tabindex="-1">DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE</a></li>
@@ -86,28 +105,62 @@
 
         <div id="map"></div>
 
-        <!-- first visit modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="infoWindow" tabindex="-1" role="dialog" aria-labelledby="infoWindowLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 class="modal-title" id="myModalLabel">Election Map</h3>
+                        <h4 class="modal-title" id="infoWindowLabel">Election Map</h4>
                     </div>
-                    <div class="modal-body">
-                        <h4>Welcome to Election Map!</h4>
-                        <p>Choose from <code>Provinces</code>, <code>Municipalities</code> or <code>Wards</code> from the drop-down option.</p>
-                        <p>Click on an area on the map to view the relevant election data.</p>
+                    <div class="panel-body">
+                        <p><strong>Welcome to Election Map!</strong></p>
+                        <p>Election Map lets you visualise the 2009 South African National Elections data on a map.</p>
+                        <p>Data can be visualised at a <code>Province</code>, <code>Municipality</code> or <code>Ward</code> level.</p>
+                        <p>Once the map has loaded, <strong>click on an area</strong> to show the results.</p>
+                        <p>The following indicators (results) can be visualised:</p>
+                        <dl class="dl-horizontal">
+                            <dt>Winning party</dt>
+                            <dd>
+                                <strong class="text-info">Who won?</strong><br />Colours the geographical area 
+                                with the winning party's colours.<br />
+                                <em><small>Displays the selected number of results (5 results by default)</small></em>
+                            </dd>
+                            <dt>Winning margin</dt>
+                            <dd>
+                                <strong class="text-info">By how much?</strong><br />
+                                Colours the geographical area with the winning party's colours, 
+                                adjusting the opacity based on the margin
+                                of victory (in percentage points) to the second placed party.<br />
+                                <em><small>Displays the winner and the second placed party</small></em>
+                                
+                            </dd>
+                            <dt>Party base</dt>
+                            <dd>
+                                <strong class="text-info">Where are the party's voters?</strong><br />
+                                Colours the geographical area with the selected party's colours,
+                                adjusting the opacity to show where the party's support base is.<br />
+                                <em><small>Displays the selected party's votes for the area and overall (nationally)</small></em>
+                            </dd>
+                            <dt>Party strength</dt>
+                            <dd>
+                                <strong class="text-info">How strong is the party?</strong><br />
+                                Colours the geographical area with the selected party's colours,
+                                adjusting the opacity to show what percent of the area's vote was won.<br />
+                                <em><small>Displays the selected party's votes for the area the total votes for the area</small></em>
+                            </dd>
+                        </dl>
+
+                        <p>Contact me on Twitter at <a href="http://www.twitter.com/capesean">@capesean</a></p>
                     </div>
-                    <div class="modal-footer">
+                    <div class="panel-footer text-right">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-    
+
     </div>
-    
+
     <div id="spinner"></div>
 </body>
 </html>

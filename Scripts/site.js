@@ -1,10 +1,12 @@
 ﻿$(function () {
 
     $("#selectedPartyBtns").hide();
+    $("#wardProvinceBtns").hide();
 
     // variable for storing the created mapper.js object
     var mapper,
         shapeType = "provinces",
+        wardProvince = "",
         indicatorType = "Winning party",
         selectedParty = "AFRICAN NATIONAL CONGRESS",
         resultCount = 5;
@@ -52,13 +54,32 @@
     municipalities[245] = "WC024"; municipalities[246] = "WC025"; municipalities[247] = "WC026"; municipalities[248] = "WC031"; municipalities[249] = "WC032"; municipalities[250] = "WC033"; municipalities[251] = "WC034"; municipalities[252] = "WC041"; municipalities[253] = "WC042"; municipalities[254] = "WC043";
     municipalities[255] = "WC044"; municipalities[256] = "WC045"; municipalities[257] = "WC047"; municipalities[258] = "WC048"; municipalities[259] = "WC051"; municipalities[260] = "WC052"; municipalities[261] = "WC053";
 
-    var numShapes = []; numShapes["provinces"] = 9; numShapes["municipalities"] = 234; numShapes["wards"] = 4278; 
+    var numShapes = []; numShapes["provinces"] = 9; numShapes["municipalities"] = 234; numShapes["wards"] = 4278;
+
+    $("#btnInfo").click(function () {
+        $('#infoWindow').modal(options);
+    });
 
     // changing the shapetype dropdown
     $("#shapetypeDropdown li a").click(function () {
         $("#shapeType").text($(this).text());
         shapeType = $(this).text().toLowerCase();
-        startMap();
+        if (shapeType == "wards") $("#wardProvinceBtns").show();
+        // don't show map if wards & no province selection yet
+        if (shapeType != "wards" || wardProvince != "")
+            startMap();
+    });
+
+    // changing the shapetype dropdown
+    $("#wardProvinceDropdown li a").click(function () {
+        if ($(this).text() == "All provinces") {
+            if (!confirm("Are you sure you want to download all ward data?\n\nThe combined file size is ~ 10MB"))
+                return;
+        }
+        $("#wardProvince").text($(this).text());
+        wardProvince = $(this).text();
+        if (wardProvince)
+            startMap();
     });
 
     // changing the indicator type dropdown
@@ -312,16 +333,23 @@
                 }
             }
 
-            // create new mapper
-            mapper = $("#map").mapper({
-                allowAllWards: true, // TODO: replace this with a dropdown
-                dataType: shapeType,
-                drawAll: true,
-                data: loadedData,
-                click: shapeClicked
-            });
+            var allowAllWards = false;
+            if (shapeType == "wards" && wardProvince == "All provinces") allowAllWards = true;
 
-            $("body").removeClass("loading");
+            // create new mapper
+            try {
+                mapper = $("#map").mapper({
+                    allowAllWards: allowAllWards,
+                    dataType: shapeType,
+                    drawAll: true,
+                    data: loadedData,
+                    click: shapeClicked,
+                    province: (shapeType == "wards" ? (wardProvince == "All provinces" ? "" : wardProvince) : "")
+                });
+            }
+            finally {
+                $("body").removeClass("loading");
+            }
         }, 150);
 
     }
@@ -434,10 +462,10 @@
     // start the map
     startMap();
 
-    //localStorage.setItem("visited", "0");
+    localStorage.setItem("visited", "0");
     if (localStorage.getItem("visited") !== "1") {
         localStorage.setItem("visited", "1");
-        $('#myModal').modal(options);
+        $('#infoWindow').modal(options);
     }
 
 });
