@@ -462,7 +462,7 @@
     // start the map
     startMap();
 
-    localStorage.setItem("visited", "0");
+    //localStorage.setItem("visited", "0");
     if (localStorage.getItem("visited") !== "1") {
         localStorage.setItem("visited", "1");
         $('#infoWindow').modal(options);
