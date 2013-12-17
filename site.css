@@ -52,6 +52,59 @@ body {
             padding-right: 17px;
         }
 
+#legend {
+    z-index: 100;
+    position: absolute;
+    margin: 0 0 0 20px;
+    bottom: 40px;
+}
+
+    #legend .panel {
+        margin-bottom: 0;
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #legend .panel .key span {
+        display:block;
+        width:20px;
+        height:20px;
+        margin-left:5px;
+    }
+
+    #legend .panel #anc span {
+        background:#008442;
+    }
+
+    #legend .panel #da span {
+        background:#004887;
+    }
+
+    #legend .panel #cope span {
+        background:#fed404;
+    }
+
+    #legend .panel #ifp span {
+        background:#f1452d;
+    }
+
+    #legend .panel #id span {
+        background:#ed8429;
+    }
+
+    #legend td {
+        white-space: nowrap;
+    }
+
+        #legend td:first-child, #legend th:first-child {
+            padding-left: 17px;
+        }
+
+        #legend td:last-child, #legend th:last-child {
+            padding-right: 17px;
+        }
+
 
 #spinner {
     display: none;
