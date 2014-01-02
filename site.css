@@ -66,32 +66,32 @@ body {
         overflow-x: hidden;
     }
 
-    #legend .panel .key span {
-        display:block;
-        width:20px;
-        height:20px;
-        margin-left:5px;
-    }
+        #legend .panel .key span {
+            display: block;
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+        }
 
-    #legend .panel #anc span {
-        background:#008442;
-    }
+        #legend .panel #anc span {
+            background: #008442;
+        }
 
-    #legend .panel #da span {
-        background:#004887;
-    }
+        #legend .panel #da span {
+            background: #004887;
+        }
 
-    #legend .panel #cope span {
-        background:#fed404;
-    }
+        #legend .panel #cope span {
+            background: #fed404;
+        }
 
-    #legend .panel #ifp span {
-        background:#f1452d;
-    }
+        #legend .panel #ifp span {
+            background: #f1452d;
+        }
 
-    #legend .panel #id span {
-        background:#ed8429;
-    }
+        #legend .panel #id span {
+            background: #ed8429;
+        }
 
     #legend td {
         white-space: nowrap;
@@ -108,7 +108,7 @@ body {
 
 #spinner {
     display: none;
-    cursor:wait;
+    cursor: wait;
     position: fixed;
     z-index: 1000;
     top: 0;
@@ -133,4 +133,8 @@ body #infoWindow .modal-dialog {
 
 body #infoWindow .dl-horizontal dd, body #infoWindow .dl-horizontal dt {
     padding-top: 10px;
+}
+
+div.logos {
+    margin-top: 20px;
 }
